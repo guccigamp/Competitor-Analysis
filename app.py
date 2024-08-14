@@ -93,4 +93,4 @@ def update_map_by_company(company):
 
     return fig
 
-app.run_server(debug=True)
+app.run_server()
