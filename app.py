@@ -24,12 +24,11 @@ def all_companies_scatter_map():
     )
 
     fig.update_layout(mapbox_style="open-street-map", mapbox_zoom=4,
-        margin={"r":2,"t":2,"l":2,"b":2}) 
+        margin={"r":0,"t":0,"l":0,"b":0}) 
 
-    fig.update_traces(cluster=dict(enabled=True))
     return fig
 
-app = Dash()
+app = Dash(__name__)
 server = app.server
 
 app.layout = html.Div([
@@ -83,14 +82,14 @@ def update_map_by_company(company):
             "latitude": False,
             "longitude": False
         },
-        labels={"top_competitors": "Our Top Competitors"}
+        labels={"top_competitors": "Our Top Competitors"},
+        
     )
 
     fig.update_layout(mapbox_style="open-street-map", mapbox_zoom=4,
-        margin={"r":2,"t":2,"l":2,"b":2}) 
-    
-    fig.update_traces(cluster=dict(enabled=True))
+        margin={"r":0,"t":0,"l":0,"b":0}) 
 
     return fig
 
-app.run_server()
+if __name__ == "__main__":
+    app.run_server()
