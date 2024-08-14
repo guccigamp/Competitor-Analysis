@@ -30,7 +30,7 @@ def all_companies_scatter_map():
     return fig
 
 app = Dash()
-
+app.server()
 
 app.layout = html.Div([
     html.H1("Dashboard To view our Top Competitor's Warehouse", style={"textAlign":"center"}),
