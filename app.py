@@ -20,7 +20,8 @@ def all_companies_scatter_map():
             "latitude": False,
             "longitude": False
         },
-        labels={"top_competitors": "Our Top Competitors"}
+        labels={"top_competitors": "Our Top Competitors"},
+        size_max=50
     )
 
     fig.update_layout(mapbox_style="open-street-map", mapbox_zoom=4,
@@ -32,7 +33,7 @@ app = Dash(__name__)
 server = app.server
 
 app.layout = html.Div([
-    html.H1("Dashboard To view our Top Competitor's Warehouse", style={"textAlign":"center"}),
+    html.H1("Top Competitors", style={"textAlign":"center"}),
     html.Div(
         id='View All',
         children=[
@@ -83,7 +84,7 @@ def update_map_by_company(company):
             "longitude": False
         },
         labels={"top_competitors": "Our Top Competitors"},
-        
+        size_max=50
     )
 
     fig.update_layout(mapbox_style="open-street-map", mapbox_zoom=4,
