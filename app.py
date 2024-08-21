@@ -2,30 +2,37 @@ from dash import Dash, html, dcc
 from dash import Input, Output, callback
 from dash._callback import PreventUpdate
 import plotly.express as px
+import plotly.graph_objects as go
 import pandas as pd
+import dash_bootstrap_components as  dbc
 
 companies_df = pd.read_csv("Comp Analysis- BI Report.csv")
+df = pd.read_csv("companies_locations.csv")
 
 def all_companies_scatter_map():
-    fig = px.scatter_mapbox(
-        data_frame=companies_df,
-        lat="latitude", lon="longitude",
-        title="Locations of our Competitor's Warehouses",
-        color="top_competitors",
-        hover_name="top_competitors",
-        hover_data={
-            "city": True,
-            "state": True,
-            "top_competitors": False,
-            "latitude": False,
-            "longitude": False
-        },
-        labels={"top_competitors": "Our Top Competitors"},
-        size_max=50
+    # Create a plotly figure
+    fig = go.Figure()
+
+    # Looping thru all the company names
+    for company in df.company.unique():
+        # Adding traces by company
+        fig.add_trace(go.Scattergeo(
+            locationmode="USA-states",
+            lat=df.query(f"company == '{company}'")["latitude"], lon=df.query(f"company == '{company}'")["longitude"],
+            text=df.query(f"company == '{company}'")["text"], mode="markers",
+            marker = dict(
+                size=15,
+                symbol=6,
+            ), name=company
+        ))
+
+    fig.update_layout(
+        title = 'Location of All Companies<br>(Hover for info)',
+        geo_scope='usa', height=600
+        
     )
 
-    fig.update_layout(mapbox_style="open-street-map", mapbox_zoom=4,
-        margin={"r":0,"t":0,"l":0,"b":0}) 
+    return fig
 
     return fig
 
@@ -49,7 +56,9 @@ app.layout = html.Div([
             dcc.Dropdown(
                 id='company-dropdown',
                 options=companies_df.top_competitors.unique(),
-                multi=True
+                multi=True,
+                style={"textAlign":"center"},
+
             ),
             dcc.Graph(id='view-by-company-scatter-map')
         ]
@@ -69,28 +78,7 @@ def update_map_by_company(company):
     if not company:
         raise PreventUpdate
 
-    fig = px.scatter_mapbox(
-        data_frame=companies_df.query("top_competitors in @company"),
-        # data_frame=competitor_df,
-        lat="latitude", lon="longitude",
-        title="Locations of @company",
-        color="top_competitors",
-        hover_name="top_competitors",
-        hover_data={
-            "city": True,
-            "state": True,
-            "top_competitors": False,
-            "latitude": False,
-            "longitude": False
-        },
-        labels={"top_competitors": "Our Top Competitors"},
-        size_max=50
-    )
-
-    fig.update_layout(mapbox_style="open-street-map", mapbox_zoom=4,
-        margin={"r":0,"t":0,"l":0,"b":0}) 
-
-    return fig
+    
 
 if __name__ == "__main__":
     app.run_server(host="0.0.0.0", port=8050)
