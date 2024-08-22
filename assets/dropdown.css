@@ -1,0 +1,15 @@
+.Select-control {
+    background-color: white;
+    border-color: #ced4da;
+    border-radius: .25rem;
+    cursor: pointer;
+}
+
+.Select-value {
+    color: #495057;
+}
+
+.Select-menu-outer {
+    border-color: #ced4da;
+    border-radius: .25rem;
+}

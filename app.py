@@ -1,84 +1,76 @@
 from dash import Dash, html, dcc
 from dash import Input, Output, callback
 from dash._callback import PreventUpdate
+from graphs import all_companies_scattergeo
+from graphs import filter_by_company_scattergeo
 import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
+import time
 import dash_bootstrap_components as  dbc
 
-companies_df = pd.read_csv("Comp Analysis- BI Report.csv")
-df = pd.read_csv("companies_locations.csv")
 
-def all_companies_scatter_map():
-    # Create a plotly figure
-    fig = go.Figure()
+# Read companies location dataset
+df = pd.read_csv("datasets/companies_locations.csv")
 
-    # Looping thru all the company names
-    for company in df.company.unique():
-        # Adding traces by company
-        fig.add_trace(go.Scattergeo(
-            locationmode="USA-states",
-            lat=df.query(f"company == '{company}'")["latitude"], lon=df.query(f"company == '{company}'")["longitude"],
-            text=df.query(f"company == '{company}'")["text"], mode="markers",
-            marker = dict(
-                size=15,
-                symbol=6,
-            ), name=company
-        ))
-
-    fig.update_layout(
-        title = 'Location of All Companies<br>(Hover for info)',
-        geo_scope='usa', height=600
-        
+# Creating an Instance of the app
+app = Dash(
+    external_stylesheets=[dbc.themes.FLATLY],
+    assets_folder="assets"
     )
 
-    return fig
+app.layout = dbc.Container(
+    [
+        html.H1("Top Competitors"),
+        dbc.Tabs(
+            [
+                dbc.Tab(label="All Companies", tab_id="tab-1"),
+                dbc.Tab(label="Filter by Company", tab_id="tab-2"),
+            ],
+            id="tabs",
+            active_tab="tab-1",
+        ),
+        html.Div(id="tab-content", className="p-4")
+    ]
+)
 
-    return fig
-
-app = Dash(__name__)
-server = app.server
-
-app.layout = html.Div([
-    html.H1("Top Competitors", style={"textAlign":"center"}),
-    html.Div(
-        id='View All',
-        children=[
-            dcc.Graph(
-                id="view-all-scatter-map", 
-                figure=all_companies_scatter_map()
-            )        
-        ]
-    ),
-    html.Div(
-        id="view-by-company",
-        children=[
+"""
+This callback takes the 'active_tab' property as input, as well as the
+stored graphs, and renders the tab content depending on what the value of
+'active_tab' is.
+"""
+@app.callback(
+    Output("tab-content", "children"),
+    Input("tabs", "active_tab"),
+)
+def render_tab_content(active_tab):
+    if active_tab == "tab-1":
+        return dcc.Graph(id="all-company-scattergeo", figure=all_companies_scattergeo())
+    elif active_tab == "tab-2":
+        return dbc.Form([
             dcc.Dropdown(
                 id='company-dropdown',
-                options=companies_df.top_competitors.unique(),
+                options=df.company.unique(),
                 multi=True,
-                style={"textAlign":"center"},
-
-            ),
-            dcc.Graph(id='view-by-company-scatter-map')
-        ]
-    )
-])
-
-
-
+                value=df.company.unique(),
+                className="form-select-primary"
+            ), 
+            html.Div(id='filter-content')
+            
+            ])
     
 
-# Callback function that updates the Map by the selected company
-@callback(
-    Output(component_id="view-by-company-scatter-map", component_property="figure"),
-    Input(component_id="company-dropdown", component_property="value")
+"""
+"""
+@app.callback(
+    Output('filter-content', 'children'),
+    Input('company-dropdown', 'value'),
+    suppress_callback_exceptions=True
 )
-def update_map_by_company(company):
-    if not company:
-        raise PreventUpdate
+def update_map(selected_companies):
+    return dcc.Graph(id="filter-by-company-scattergeo", figure=filter_by_company_scattergeo(selected_companies))
 
+# Append the necessary Bootstrap CSS files and the custom dropdown_css to the app's CSS using app.css.append_css().
     
-
 if __name__ == "__main__":
-    app.run_server(host="0.0.0.0", port=8050)
+    app.run_server(port="8050", dev_tools_ui=False, dev_tools_props_check=False)

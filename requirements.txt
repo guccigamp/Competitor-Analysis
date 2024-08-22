@@ -3,3 +3,5 @@ dash
 plotly
 gunicorn
 openpyxl
+dash-core-components
+dash-bootstrap-components
