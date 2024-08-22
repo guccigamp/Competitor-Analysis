@@ -73,4 +73,4 @@ def update_map(selected_companies):
 # Append the necessary Bootstrap CSS files and the custom dropdown_css to the app's CSS using app.css.append_css().
     
 if __name__ == "__main__":
-    app.run_server(port="8050", dev_tools_ui=False, dev_tools_props_check=False)
+    app.run_server(host="0.0.0.0",port=8050, dev_tools_ui=False, dev_tools_props_check=False)
