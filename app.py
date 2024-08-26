@@ -1,13 +1,11 @@
 from dash import Dash, html, dcc
 from dash import Input, Output, callback
-from dash._callback import PreventUpdate
 from graphs import all_companies_scattergeo
 from graphs import filter_by_company_scattergeo
 import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
-import time
-import dash_bootstrap_components as  dbc
+import dash_bootstrap_components as dbc
 
 
 # Read companies location dataset
@@ -70,7 +68,6 @@ def render_tab_content(active_tab):
 def update_map(selected_companies):
     return dcc.Graph(id="filter-by-company-scattergeo", figure=filter_by_company_scattergeo(selected_companies))
 
-# Append the necessary Bootstrap CSS files and the custom dropdown_css to the app's CSS using app.css.append_css().
     
 if __name__ == "__main__":
     app.run_server(host="0.0.0.0",port=8050, dev_tools_ui=False, dev_tools_props_check=False)

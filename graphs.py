@@ -53,7 +53,7 @@ def filter_by_company_scattergeo(selected_companies):
 
     fig.update_layout(
         title='Location of Selected Companies<br>(Hover for info)',
-        geo_scope='usa',
+        geo_scope='usa', height=600
     )
 
     return fig
