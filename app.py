@@ -13,7 +13,7 @@ df = pd.read_csv("datasets/companies_locations.csv")
 
 # Creating an Instance of the app
 app = Dash(
-    external_stylesheets=[dbc.themes.FLATLY],
+    external_stylesheets=[dbc.themes.DARKLY],
     assets_folder="assets"
     )
 
@@ -33,8 +33,7 @@ app.layout = dbc.Container(
 )
 
 """
-This callback takes the 'active_tab' property as input, as well as the
-stored graphs, and renders the tab content depending on what the value of
+This callback takes the 'active_tab' property as input, and renders the tab content depending on what the value of
 'active_tab' is.
 """
 @app.callback(
@@ -43,15 +42,15 @@ stored graphs, and renders the tab content depending on what the value of
 )
 def render_tab_content(active_tab):
     if active_tab == "tab-1":
-        return dcc.Graph(id="all-company-scattergeo", figure=all_companies_scattergeo())
+        return dcc.Graph(id="all-company-scattergeo",
+                          figure=all_companies_scattergeo())
     elif active_tab == "tab-2":
         return dbc.Form([
             dcc.Dropdown(
                 id='company-dropdown',
                 options=df.company.unique(),
                 multi=True,
-                value=df.company.unique(),
-                className="form-select-primary"
+                value=df.company.unique()
             ), 
             html.Div(id='filter-content')
             
@@ -59,6 +58,7 @@ def render_tab_content(active_tab):
     
 
 """
+This callback takes the values of "company-dropdown" as an input to refresh the graph of filtered companies
 """
 @app.callback(
     Output('filter-content', 'children'),
@@ -66,7 +66,8 @@ def render_tab_content(active_tab):
     suppress_callback_exceptions=True
 )
 def update_map(selected_companies):
-    return dcc.Graph(id="filter-by-company-scattergeo", figure=filter_by_company_scattergeo(selected_companies))
+    return dcc.Graph(id="filter-by-company-scattergeo", 
+                     figure=filter_by_company_scattergeo(selected_companies))
 
     
 if __name__ == "__main__":
