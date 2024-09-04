@@ -4,7 +4,7 @@ from dash import Dash, html
 
 
 
-ALTOR_LOGO = r"C:\Users\shaha\Development\Competitor Analysis\assets\Altor-Logo_Bob_PNG.png"
+ALTOR_LOGO = "..\assets\Altor-Logo_Bob_PNG.png"
 
 navmenu = dbc.Row(
     [
@@ -20,7 +20,6 @@ navmenu = dbc.Row(
             )
         ),
     ],
-    # className="g-0 ms-auto flex-nowrap mt-3 mt-md-0",
     align="center",
 )
 
@@ -47,13 +46,3 @@ navbar = dbc.Navbar(
     color="black",
     dark=True,
 )
-
-
-# app = Dash(
-#     external_stylesheets=[dbc.themes.BOOTSTRAP],
-#     assets_folder="assets"
-#     )
-# app.layout = navbar
-#
-# app.run_server(debug=True)
-
