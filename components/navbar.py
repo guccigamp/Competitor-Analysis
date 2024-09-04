@@ -4,7 +4,7 @@ from dash import Dash, html
 
 
 
-ALTOR_LOGO = "..\assets\Altor-Logo_Bob_PNG.png"
+ALTOR_LOGO = "../assets/Altor-Logo_Bob_PNG.png"
 
 navmenu = dbc.Row(
     [

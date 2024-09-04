@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-df = pd.read_csv("..\datasets\companies_locations.csv")
+df = pd.read_csv("..datasets/companies_locations.csv")
 secret_access_token = os.getenv("secret_access_token")
 free_access_token = os.getenv("free_access_token")
 

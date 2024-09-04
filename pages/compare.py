@@ -10,7 +10,7 @@ from components.navbar import navbar
 from pages.graphs import compare_scattergeo
 import pandas as pd
 
-df = pd.read_csv("..\datasets\companies_locations.csv")
+df = pd.read_csv("../datasets/companies_locations.csv")
 
 
 layout = dbc.Container(

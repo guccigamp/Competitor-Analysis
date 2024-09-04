@@ -11,7 +11,7 @@ from pages.graphs import all_companies_scattergeo
 import pandas as pd
 import app
 
-df = pd.read_csv("..\datasets\companies_locations.csv")
+df = pd.read_csv("../datasets/companies_locations.csv")
 
 
 layout = dbc.Container(
