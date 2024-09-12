@@ -25,5 +25,5 @@ def display_page(pathname):
         return '404 Page Not Found'
 
 
-# app.run_server(debug=True)
-app.run_server(host="0.0.0.0",port=8050, dev_tools_ui=False, dev_tools_props_check=False)
+app.run_server(debug=True)
+# app.run_server(host="0.0.0.0",port=8050, dev_tools_ui=False, dev_tools_props_check=False)

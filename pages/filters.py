@@ -12,7 +12,7 @@ from pages.graphs import filter_by_company_scattergeo
 
 from components.navbar import navbar
 
-df = pd.read_csv("../datasets/companies_locations.csv")
+df = pd.read_csv("datasets/companies_locations.csv")
 
 layout = dbc.Container(
     [

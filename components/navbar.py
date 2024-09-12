@@ -31,7 +31,7 @@ navbar = dbc.Navbar(
                 # Use row and col to control vertical alignment of logo / brand
                 dbc.Row(
                     [
-                        dbc.Col(html.Img(src=ALTOR_LOGO)),
+                        dbc.Col(html.Img(src=ALTOR_LOGO, height=50)),
                         dbc.Col(dbc.NavbarBrand("Top Competitors", className="ms-2")),
                     ],
                     align="center",
